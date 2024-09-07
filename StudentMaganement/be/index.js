@@ -1,12 +1,11 @@
 const express = require("express");
 const Student = require("./models/Student");
-const bodyParser = require("body-parser");
 
 const app = express();
 const port = 3000;
 
 // Middleware để parse JSON bodies
-app.use(bodyParser.json());
+app.use(express.json());
 
 // API để liệt kê tất cả các sinh viên
 app.get("/students", async (req, res) => {
@@ -17,6 +16,8 @@ app.get("/students", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
 
 // API: Lấy sinh viên theo ID
 app.get("/student/:id", async (req, res) => {
