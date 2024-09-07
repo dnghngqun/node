@@ -1,12 +1,12 @@
 const express = require("express");
 const Student = require("./models/Student");
-
+const cors = require("cors");
 const app = express();
-const port = 3000;
+const port = 8080;
 
 // Middleware để parse JSON bodies
 app.use(express.json());
-
+app.use(cors()); // Thêm middleware CORS
 // API để liệt kê tất cả các sinh viên
 app.get("/students", async (req, res) => {
   try {
@@ -16,8 +16,6 @@ app.get("/students", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
 
 // API: Lấy sinh viên theo ID
 app.get("/student/:id", async (req, res) => {
@@ -34,9 +32,9 @@ app.get("/student/:id", async (req, res) => {
 
 // API: Tạo một sinh viên mới
 app.post("/students", async (req, res) => {
-  const { name, age, grade } = req.body;
+  const studentData = req.body; // Lấy toàn bộ dữ liệu từ yêu cầu
   try {
-    const newStudent = await Student.create({ name, age, grade });
+    const newStudent = await Student.create(studentData); // Truyền toàn bộ object
     res.status(201).json(newStudent);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -45,8 +43,9 @@ app.post("/students", async (req, res) => {
 
 // API: Cập nhật sinh viên theo ID
 app.put("/student/:id", async (req, res) => {
+  const updatedData = req.body; // Lấy toàn bộ dữ liệu từ yêu cầu
   try {
-    const updatedStudent = await Student.update(req.params.id, req.body);
+    const updatedStudent = await Student.update(req.params.id, updatedData); // Truyền toàn bộ object
     res.json(updatedStudent);
   } catch (err) {
     res.status(500).json({ message: err.message });
