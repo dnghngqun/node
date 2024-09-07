@@ -14,7 +14,9 @@ const GetAllStudent = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/students");
+        const response = await axios.get(
+          "https://studentmanagementnode.onrender.com/students"
+        );
         setStudents(response.data);
       } catch (err) {
         setError(err.message);
@@ -28,7 +30,9 @@ const GetAllStudent = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/student/${id}`);
+      await axios.delete(
+        `https://studentmanagementnode.onrender.com/student/${id}`
+      );
       // Xóa sinh viên khỏi danh sách
       setStudents(students.filter((student) => student.id !== id));
       alert("Sinh viên đã được xoá!");
@@ -44,7 +48,10 @@ const GetAllStudent = () => {
 
   const handleUpdate = async (id) => {
     try {
-      await axios.put(`http://localhost:8080/student/${id}`, editData);
+      await axios.put(
+        `https://studentmanagementnode.onrender.com/student/${id}`,
+        editData
+      );
       const updatedStudents = students.map((student, index) =>
         index === editingIndex ? { ...editData, id: student.id } : student
       );

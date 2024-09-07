@@ -23,7 +23,7 @@ const SearchStudentById = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8080/student/${studentId}`
+        `https://studentmanagementnode.onrender.com/student/${studentId}`
       );
       setStudent(response.data);
     } catch (err) {

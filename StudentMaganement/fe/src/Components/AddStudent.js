@@ -51,7 +51,10 @@ const AddStudent = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/students", data);
+      const response = await axios.post(
+        "https://studentmanagementnode.onrender.com/students",
+        data
+      );
       alert("Sinh viên đã được tạo thành công!");
       console.log(response.data);
     } catch (error) {
