@@ -1,0 +1,75 @@
+:root {
+  --width-all-page: 1200px;
+}
+#navbar .navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--width-all-page);
+  margin: 0 auto;
+  height: 75px;
+}
+
+#navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.08);
+}
+
+.navbar-container .center {
+  width: 38%;
+}
+
+.navbar-container .center .nav-ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.center .nav-ul .nav-item {
+  /* mở rộng để chiếm không gian còn lại trong container, chia đều với các phần tử khác cũng có flex: 1 */
+  flex: 1;
+  list-style: none;
+  text-align: center;
+}
+.center .nav-ul .nav-item .nav-link {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  font-weight: 550;
+}
+
+.navbar-container .left span {
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.navbar-container .right .btn {
+  margin-left: 10px;
+  width: 70px;
+  height: 30px;
+  border-radius: 10px;
+  border: 2px solid #127c71;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.navbar-container .right .btn-login {
+  background-color: #127c71;
+  color: #fff;
+}
+
+.center .nav-item .nav-link:hover {
+  font-size: 17px;
+  color: #127c71;
+  transition: 0.3s font-size;
+}
+
+.right .btn:hover {
+  transform: scale(1.06);
+  transition: 0.3s transform;
+}
