@@ -9,6 +9,11 @@ const {
 const { registerCourse } = require("../models/registration");
 const { adminOnly, userOnly } = require("../middlewares/auth");
 const router = express.Router();
+const axios = require("axios");
+const imgur = require("imgur");
+const multer = require("multer");
+// Cấu hình Imgur API
+imgur.ImgurClientID = process.env.IMGUR_CLIENT_ID;
 
 // Thêm khóa học (chỉ admin)
 router.post("/", adminOnly, async (req, res) => {
@@ -16,6 +21,36 @@ router.post("/", adminOnly, async (req, res) => {
   try {
     const courseId = await createCourse(courseData);
     res.status(201).json({ id: courseId });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Multer cấu hình lưu file tạm thời
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// API upload ảnh lên Imgur
+router.post("/upload-image", upload.single("image"), async (req, res) => {
+  try {
+    const image = req.file.buffer.toString("base64");
+    // console.log("image: ", image);
+    const response = await axios.post(
+      "https://api.imgur.com/3/image",
+      {
+        image: image,
+        type: "base64",
+      },
+      {
+        headers: {
+          Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const imageLink = response.data.data.link;
+    res.status(200).json({ link: imageLink });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

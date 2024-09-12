@@ -12,12 +12,17 @@ const router = express.Router();
 
 // Route để kiểm tra xác thực token
 router.post("/verifyToken", verifyToken, (req, res) => {
-  res.status(200).json({ message: "Xác thực thành công", uid: req.uid, name: req.name });
+  res.status(200).json({
+    message: "Xác thực thành công",
+    uid: req.uid,
+    name: req.name,
+    role: req.role,
+  });
 });
 
 // Đăng ký người dùng
 router.post("/signup", async (req, res) => {
-  const {name, email, password, role } = req.body;
+  const { name, email, password, role } = req.body;
   try {
     const userRecord =
       role === "admin"

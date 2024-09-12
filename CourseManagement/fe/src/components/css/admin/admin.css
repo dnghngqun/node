@@ -1,0 +1,50 @@
+@keyframes slideDown {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+  100% {
+    max-height: 1000px; /* Giá trị này phải đủ lớn để chứa nội dung của form */
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    max-height: 1000px;
+    opacity: 1;
+  }
+  100% {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+}
+
+.fade-in.show {
+  animation: slideDown 1s forwards ease;
+}
+
+.fade-in.hide {
+  animation: slideUp 1s forwards ease;
+}
+
+.create-update input {
+  margin: 5px;
+  height: 30px;
+}
+.create-update label {
+  font-size: 15px;
+}
+
+.create-update textarea {
+  width: 350px;
+  height: 70px;
+  margin-left: 5px;
+  margin-top: 5px;
+}

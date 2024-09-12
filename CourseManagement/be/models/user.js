@@ -8,7 +8,10 @@ const createUser = async (name, email, password, role = "user") => {
     if (!userRecord.uid) {
       throw new Error("User UID is missing");
     }
-    await db.collection("users").doc(userRecord.uid).set({ name, role });
+    await db
+      .collection("users")
+      .doc(userRecord.uid)
+      .set({ name, role: role.trim() });
     return userRecord;
   } catch (error) {
     throw new Error(error.message);
@@ -82,6 +85,7 @@ const verifyToken = async (req, res, next) => {
 
     //lưu thông tin vào request
     req.name = userDoc.data().name;
+    req.role = userDoc.data().role;
     req.uid = uid;
     next(); // Tiếp tục request sau khi xác thực thành công
   } catch (error) {

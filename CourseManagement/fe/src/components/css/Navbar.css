@@ -29,7 +29,9 @@
   justify-content: center;
   width: 100%;
 }
-
+.center .nav-ul {
+  margin-bottom: 0;
+}
 .center .nav-ul .nav-item {
   /* mở rộng để chiếm không gian còn lại trong container, chia đều với các phần tử khác cũng có flex: 1 */
   flex: 1;
@@ -56,6 +58,8 @@
   border: 2px solid #127c71;
   background-color: #fff;
   cursor: pointer;
+  padding: 0;
+  color: #127c71;
 }
 
 .navbar-container .right .btn-login {

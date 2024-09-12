@@ -1,8 +1,47 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Navbar.css";
 const Navbar = () => {
   const navigate = useNavigate();
+  const [loginSuccess, setLoginSuccess] = useState(false); // State kiểm tra đăng nhập thành công
+
+  //check login status
+  useEffect(() => {
+    const uid = localStorage.getItem("uid");
+    const expriresAt = localStorage.getItem("expiresAt");
+    if (uid && expriresAt) {
+      if (Date.now() < expriresAt) {
+        //token is valid
+        setLoginSuccess(true);
+      } else {
+        //token is expired
+        localStorage.removeItem("idToken");
+        localStorage.removeItem("uid");
+        localStorage.removeItem("name");
+        localStorage.removeItem("expiresAt");
+        localStorage.removeItem("role");
+      }
+    }
+  }, []);
+
+  const logout = () => {
+    // Xóa token và thời gian hết hạn khỏi localStorage
+    localStorage.removeItem("idToken");
+    localStorage.removeItem("uid");
+    localStorage.removeItem("name");
+    localStorage.removeItem("expiresAt");
+    localStorage.removeItem("role");
+    // Cập nhật trạng thái đăng nhập thành false
+    setLoginSuccess(false);
+
+    // Chuyển hướng người dùng tới trang đăng nhập hoặc trang chính
+    navigate("/");
+  };
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <div id="navbar">
       <div className="navbar-container">
@@ -34,20 +73,31 @@ const Navbar = () => {
           </nav>
         </div>
         <div className="right">
-          <button
-            className="btn btn-login"
-            onClick={() => {
-              navigate("/login");
-            }}>
-            Sign in
-          </button>
-          <button
-            className="btn btn-regis"
-            onClick={() => {
-              navigate("/register");
-            }}>
-            Sign up
-          </button>
+          {loginSuccess ? (
+            <>
+              Hello, {localStorage.getItem("name")}{" "}
+              <button className="btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="btn btn-login"
+                onClick={() => {
+                  navigate("/login");
+                }}>
+                Sign in
+              </button>
+              <button
+                className="btn btn-regis"
+                onClick={() => {
+                  navigate("/register");
+                }}>
+                Sign up
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

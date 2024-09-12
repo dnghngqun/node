@@ -1,13 +1,13 @@
 import React from "react";
 // Import Swiper React components
 // import required modules
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
 import Navbar from "./Navbar";
-import "./css/Course.css"
+import "./css/Course.css";
 const Course = () => {
   return (
     <>
@@ -15,15 +15,19 @@ const Course = () => {
       <div id="coursePage">
         <section className="slide">
           <Swiper
+            className="swiper"
             slidesPerView={1}
             loop={true}
             centeredSlides={true}
-            Autoplay={{
+            autoplay={{
               delay: 3500,
               disableOnInteraction: false,
             }}
-            pagination={true}
-            modules={[Autoplay, Pagination]}>
+            navigation={{
+              nextEl: ".custom-next",
+              prevEl: ".custom-prev",
+            }}
+            modules={[Autoplay, Navigation]}>
             <SwiperSlide className="swiperSlide swiperSlide1">
               {" "}
               <div className="text-title">
@@ -60,6 +64,8 @@ const Course = () => {
               </div>
             </SwiperSlide>
           </Swiper>
+          <div className="custom-navi custom-prev"></div>
+          <div className="custom-navi custom-next"></div>
         </section>
       </div>
     </>
