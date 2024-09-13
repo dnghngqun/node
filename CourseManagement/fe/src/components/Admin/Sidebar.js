@@ -72,19 +72,16 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="sidebar-item my-3">
-              <Link className="sidebar-link" to="/admin/lecture" aria-expanded="false">
+              <Link
+                className="sidebar-link"
+                to="/admin/lecture"
+                aria-expanded="false">
                 <b className="" style={{ fontSize: "20px" }}>
                   LECTURE
                 </b>
               </Link>
             </li>
-            <li className="sidebar-item my-3">
-              <Link className="sidebar-link" to="/search" aria-expanded="false">
-                <b className="" style={{ fontSize: "20px" }}>
-                  SEARCH STUDENT
-                </b>
-              </Link>
-            </li>
+
             <li className="sidebar-item my-3">
               <Link
                 className="sidebar-link"
