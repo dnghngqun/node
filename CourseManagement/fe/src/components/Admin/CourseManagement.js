@@ -22,7 +22,7 @@ const CourseManagement = () => {
       formData.append("image", file);
       const token = localStorage.getItem("idToken");
       const response = await axios.post(
-        "http://localhost:8080/courses/upload-image",
+        "https://coursemanagement-be.onrender.com/courses/upload-image",
         formData,
         {
           headers: {
@@ -67,7 +67,7 @@ const CourseManagement = () => {
           const token = localStorage.getItem("idToken");
 
           await axios.post(
-            "http://localhost:8080/courses",
+            "https://coursemanagement-be.onrender.com/courses",
             {
               name,
               price,
@@ -100,7 +100,7 @@ const CourseManagement = () => {
     if (confirmDelete) {
       try {
         const token = localStorage.getItem("idToken");
-        await axios.delete(`http://localhost:8080/courses/${courseId}`, {
+        await axios.delete(`https://coursemanagement-be.onrender.com/courses/${courseId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -115,7 +115,7 @@ const CourseManagement = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/courses/")
+      .get("https://coursemanagement-be.onrender.com/courses/")
       .then((response) => {
         console.log("Respon data: ", response.data);
         setCourses(response.data);
@@ -150,7 +150,7 @@ const CourseManagement = () => {
       const token = localStorage.getItem("idToken");
 
       await axios.put(
-        `http://localhost:8080/courses/${editingCourse.id}`,
+        `https://coursemanagement-be.onrender.com/courses/${editingCourse.id}`,
         {
           name,
           price,

@@ -21,7 +21,7 @@ const Course = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://localhost:8080/courses/")
+      .get("https://coursemanagement-be.onrender.com/courses/")
       .then((response) => {
         setProducts(response.data);
         setFilteredProducts(response.data); // Khởi tạo dữ liệu đã lọc
@@ -44,7 +44,7 @@ const Course = () => {
       }
       if (token)
         await axios.post(
-          `http://localhost:8080/courses/${courseId}/register`,
+          `https://coursemanagement-be.onrender.com/courses/${courseId}/register`,
           {
             uid: uid, // Truyền uid và id khóa học
           },

@@ -38,7 +38,7 @@ const RegisteredCourses = () => {
   const fetchLectures = async (courseId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/courses/${courseId}/lectures`
+        `https://coursemanagement-be.onrender.com/courses/${courseId}/lectures`
       );
       setLectures((prevLectures) => ({
         ...prevLectures,
@@ -60,7 +60,7 @@ const RegisteredCourses = () => {
     try {
       const uid = localStorage.getItem("uid"); // Lấy uid từ localStorage
       const response = await axios.get(
-        `http://localhost:8080/courses/user-courses/${uid}`
+        `https://coursemanagement-be.onrender.com/courses/user-courses/${uid}`
       );
       setCourses(response.data);
     } catch (error) {

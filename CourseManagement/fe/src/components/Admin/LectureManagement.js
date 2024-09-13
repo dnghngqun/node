@@ -27,7 +27,7 @@ const LectureManagement = () => {
   // Fetch danh sách khóa học
   const fetchCourses = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/courses/");
+      const response = await axios.get("https://coursemanagement-be.onrender.com/courses/");
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
@@ -38,7 +38,7 @@ const LectureManagement = () => {
   const fetchLectures = async (courseId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/courses/${courseId}/lectures`
+        `https://coursemanagement-be.onrender.com/courses/${courseId}/lectures`
       );
       setLectures((prevLectures) => ({
         ...prevLectures,
@@ -59,7 +59,7 @@ const LectureManagement = () => {
     try {
       const token = localStorage.getItem("idToken");
       await axios.post(
-        `http://localhost:8080/lectures/${courseId}`,
+        `https://coursemanagement-be.onrender.com/lectures/${courseId}`,
         {
           lesson,
           title,
@@ -116,7 +116,7 @@ const LectureManagement = () => {
     try {
       const token = localStorage.getItem("idToken");
       await axios.put(
-        `http://localhost:8080/lectures/${courseId}/lectures/${editingLecture.id}`, // Gửi yêu cầu PUT tới API
+        `https://coursemanagement-be.onrender.com/lectures/${courseId}/lectures/${editingLecture.id}`, // Gửi yêu cầu PUT tới API
         {
           courseId: editingLecture.courseId,
           lesson,
@@ -152,7 +152,7 @@ const LectureManagement = () => {
       try {
         const token = localStorage.getItem("idToken");
         await axios.delete(
-          `http://localhost:8080/lectures/${courseId}/lectures/${lectureId}`,
+          `https://coursemanagement-be.onrender.com/lectures/${courseId}/lectures/${lectureId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

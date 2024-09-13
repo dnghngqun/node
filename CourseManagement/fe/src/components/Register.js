@@ -10,7 +10,7 @@ const Register = () => {
 
   const RegisUser = async (name, email, password) => {
     try {
-      const response = await axios.post("http://localhost:8080/auth/signup", {
+      const response = await axios.post("https://coursemanagement-be.onrender.com/auth/signup", {
         name: name,
         email: email,
         password: password,
