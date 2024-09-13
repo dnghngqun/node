@@ -34,6 +34,7 @@ section.slide {
   border-radius: 50%;
   z-index: 100;
   background-color: aliceblue;
+  cursor: pointer;
 }
 
 .custom-navi.custom-next {
@@ -47,4 +48,184 @@ section.slide {
 
 .swiperSlide2 {
   background-color: #f4b507;
+}
+/* css pagination course */
+.pagination_course {
+  width: 500px;
+  margin: 50px auto 100px auto;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.pagination_course li a {
+  margin: 0 10px;
+  border: 1px solid gray;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  border-radius: 8px;
+  display: block;
+}
+.pagination__link {
+  text-decoration: none;
+  color: #000;
+}
+.pagination_course li a:hover {
+  background-color: #127c71;
+  color: #fff !important;
+  transition: 0.4s ease;
+}
+.pagination_course li a:hover .pagination__link {
+  color: #fff !important;
+  transition: 0.4s ease;
+}
+
+.pagination__link--active a {
+  /* margin: 0 10px; */
+  background-color: #127c71 !important;
+  color: #fff !important;
+}
+
+.link-to-view-page {
+  text-decoration: none;
+  color: #000;
+}
+/* course-center */
+.course-center .course-container {
+  max-width: var(--width-all-page) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  /* margin-left: 80px; */
+  margin-left: auto;
+  margin-right: auto;
+  /* padding-bottom: 100px; */
+  /* background-color: #f2f5f5; */
+}
+
+.course-center .search-course {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.course-center .form-select,
+.course-center .form-control {
+  width: 200px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 14px;
+}
+
+.course-center .search-input {
+  margin-left: 20px;
+}
+
+.course-center .course-card {
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* justify-content: flex-start; //Căn hàng card theo bên trái */
+  background-color: inherit;
+}
+
+.course-center .card {
+  width: 280px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative; /* Đảm bảo hình ảnh được định vị tương đối với thẻ card */
+  padding: 5px 5px 0 5px;
+  box-shadow: none;
+}
+
+.course-center .card img {
+  width: 243px;
+  height: 243px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+  transform: scale(0.9); /* Phóng to hình ảnh hơn một chút */
+}
+
+.course-center .card:hover {
+  transform: scale(1.03); /* Phóng to thẻ card khi hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng đổ bóng khi hover */
+  transition: all 0.7s ease;
+}
+
+.course-center .card-body .card-title {
+  height: 30px;
+  margin-bottom: 0;
+  /* margin-left: 8px; */
+}
+
+.card-body .card-text {
+  margin-bottom: 5px;
+  color: #656262;
+}
+.card-body .card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* height: 20px;
+  margin-bottom: 5px; */
+}
+
+.card-body {
+  padding-top: 8px !important;
+}
+
+.card:hover .card-body .card-title,
+.card:hover .card-body .card-text,
+.card:hover .card-body .card-bottom .studyTime,
+.card:hover .card-body .card-bottom .course-price {
+  color: #127c71;
+  transition: 0.7s color;
+}
+
+.card-join {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: #65626237;
+  z-index: 100;
+  opacity: 0;
+}
+
+.btn-join {
+  height: 40px;
+  width: 100px;
+  border-radius: 20px;
+  background-color: #ced4da;
+  color: #000;
+  border: 1px solid #000;
+  outline: none;
+  position: absolute;
+  top: calc((100% - 40px) / 2);
+  left: calc((100% - 100px) / 2);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.card:hover .card-join {
+  opacity: 1;
+  animation: opacityCard 0.7s ease;
+}
+
+@keyframes opacityCard {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

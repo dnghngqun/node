@@ -7,21 +7,30 @@ const Navbar = () => {
 
   //check login status
   useEffect(() => {
-    const uid = localStorage.getItem("uid");
-    const expriresAt = localStorage.getItem("expiresAt");
-    if (uid && expriresAt) {
-      if (Date.now() < expriresAt) {
-        //token is valid
-        setLoginSuccess(true);
+    const checkLoginStatus = () => {
+      const uid = localStorage.getItem("uid");
+      const expriresAt = localStorage.getItem("expiresAt");
+      if (uid && expriresAt) {
+        if (Date.now() < expriresAt) {
+          //token is valid
+          setLoginSuccess(true);
+        } else {
+          //token is expired
+          localStorage.removeItem("idToken");
+          localStorage.removeItem("uid");
+          localStorage.removeItem("name");
+          localStorage.removeItem("expiresAt");
+          localStorage.removeItem("role");
+          setLoginSuccess(false);
+        }
       } else {
-        //token is expired
-        localStorage.removeItem("idToken");
-        localStorage.removeItem("uid");
-        localStorage.removeItem("name");
-        localStorage.removeItem("expiresAt");
-        localStorage.removeItem("role");
+        setLoginSuccess(false);
       }
-    }
+    };
+    checkLoginStatus();
+    const intervalId = setInterval(checkLoginStatus, 1000); // Cập nhật mỗi giây
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const logout = () => {
@@ -64,10 +73,12 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link">About us</Link>
+                <Link to="/course/register" className="nav-link">
+                  Registered
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link">Contact</Link>
+                <Link className="nav-link">About us</Link>
               </li>
             </ul>
           </nav>

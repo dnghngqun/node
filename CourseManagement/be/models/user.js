@@ -11,10 +11,20 @@ const createUser = async (name, email, password, role = "user") => {
     await db
       .collection("users")
       .doc(userRecord.uid)
-      .set({ name, role: role.trim() });
+      .set({ name, role, email });
     return userRecord;
   } catch (error) {
     throw new Error(error.message);
+  }
+};
+
+const getAllUsers = async () => {
+  try {
+    const usersSnapshot = await db.collection("users").get();
+    const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return users;
+  } catch (error) {
+    throw new Error(`Error fetching users: ${error.message}`);
   }
 };
 
@@ -111,4 +121,5 @@ module.exports = {
   revokeTokens,
   getUserRole,
   verifyToken,
+  getAllUsers
 };

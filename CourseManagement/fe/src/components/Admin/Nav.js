@@ -41,7 +41,11 @@ const Nav = () => {
             </h4>
           </div>
 
-          <div className="d-flex align-items-center"></div>
+          <div
+            className="d-flex align-items-center"
+            style={{ fontSize: "18px" }}>
+            Hello, {localStorage.getItem("name")}
+          </div>
         </div>
       </nav>
     </header>

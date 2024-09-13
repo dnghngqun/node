@@ -5,6 +5,8 @@ import Course from "./components/Course";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import RegisteredCourses from "./components/RegisteredCourses";
+import LectureManagement from "./components/Admin/LectureManagement";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +16,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<CourseManagement />} />
         <Route path="/course" element={<Course />} />
+        <Route path="/course/register" element={<RegisteredCourses />} />
+        <Route path="/admin/lecture" element={<LectureManagement />} />
       </Routes>
     </BrowserRouter>
   );

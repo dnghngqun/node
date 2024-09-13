@@ -52,10 +52,51 @@ const deleteCourse = async (id) => {
   }
 };
 
+// Lấy danh sách khóa học đã đăng ký của người dùng
+const getRegisteredCoursesForUser = async (uid) => {
+  try {
+    // Tìm tất cả các đăng ký khóa học của người dùng từ collection courseRegistrations
+    const registrationsSnapshot = await db.collection("courseRegistrations")
+      .where("userId", "==", uid)
+      .get();
+    
+    if (registrationsSnapshot.empty) {
+      return []; // Nếu không có đăng ký nào, trả về mảng trống
+    }
+
+    // Lấy danh sách các khóa học ID từ các đăng ký
+    const courseIds = registrationsSnapshot.docs.map(doc => doc.data().courseId);
+
+    // Nếu không có khóa học nào, trả về mảng trống
+    if (courseIds.length === 0) {
+      return [];
+    }
+
+    // Lấy thông tin chi tiết của các khóa học từ collection courses
+    const coursesPromises = courseIds.map(courseId => 
+      db.collection("courses").doc(courseId).get()
+    );
+
+    const coursesSnapshots = await Promise.all(coursesPromises);
+
+    // Tạo mảng các khóa học từ snapshot
+    const courses = coursesSnapshots.map(courseDoc => ({
+      id: courseDoc.id,
+      ...courseDoc.data()
+    }));
+
+    return courses;
+  } catch (error) {
+    throw new Error(`Error fetching registered courses: ${error.message}`);
+  }
+};
+
+
 module.exports = {
   createCourse,
   getCourses,
   getCourseById,
   updateCourse,
   deleteCourse,
+  getRegisteredCoursesForUser
 };

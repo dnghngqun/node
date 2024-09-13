@@ -257,11 +257,14 @@ const CourseManagement = () => {
                             />
                           </label>
                           <br />
-                          <label>Description:</label>
+                          <label>
+                            Description:
+                           
+                          </label>
                           <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                          />
+                              value={description}
+                              onChange={(e) => setDescription(e.target.value)}
+                            />
                           <br />
                           {editingCourse ? (
                             <button

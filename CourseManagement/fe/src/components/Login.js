@@ -22,7 +22,7 @@ const Login = () => {
   const analytics = getAnalytics(app);
   const auth = getAuth(app); // Lấy Firebase Auth instance
 
-  // State để lưu trạng thái đăng nhập và thông báo
+ 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false); // State kiểm tra đăng nhập thành công
@@ -74,7 +74,7 @@ const Login = () => {
       // Gửi ID token lên server để xác thực
       const response = await axios.post(
         "http://localhost:8080/auth/verifyToken",
-        {}, // body của request
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -95,9 +95,9 @@ const Login = () => {
       localStorage.setItem("name", data.name);
       localStorage.setItem("expiresAt", expiresAt);
       localStorage.setItem("role", data.role.trim());
-      // Nếu xác thực thành công, cập nhật state đăng nhập thành công
-      console.log("ID token: ", idToken); // In ra token trong console
-      setErrorMessage(""); // Xóa thông báo lỗi nếu có
+
+      console.log("ID token: ", idToken); 
+      setErrorMessage("");
       setLoginSuccess(true);
       if (data.role.trim() === "admin") {
         navigate("/admin");
@@ -145,10 +145,10 @@ const Login = () => {
       <span>
         You do not have an account, <Link to="/register">register here</Link>!
       </span>
-      {/* In ra thông báo nếu đăng nhập thành công */}
+    
       {loginSuccess && <p style={{ color: "green" }}>Login success</p>}
 
-      {/* In ra lỗi nếu có */}
+    
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </>
   );

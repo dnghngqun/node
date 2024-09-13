@@ -5,6 +5,7 @@ const {
   getCourseById,
   updateCourse,
   deleteCourse,
+  getRegisteredCoursesForUser,
 } = require("../models/course");
 const { registerCourse } = require("../models/registration");
 const { adminOnly, userOnly } = require("../middlewares/auth");
@@ -12,6 +13,10 @@ const router = express.Router();
 const axios = require("axios");
 const imgur = require("imgur");
 const multer = require("multer");
+const { sendEmailToUsers } = require("../services/emailService");
+const { getAllUsers } = require("../models/user");
+const { getLecturesByCourseId } = require("../models/lecture");
+
 // Cấu hình Imgur API
 imgur.ImgurClientID = process.env.IMGUR_CLIENT_ID;
 
@@ -20,6 +25,13 @@ router.post("/", adminOnly, async (req, res) => {
   const courseData = req.body;
   try {
     const courseId = await createCourse(courseData);
+
+    console.log("Course created successfully with ID:", courseId);
+
+    const users = await getAllUsers(); //lấy all danh sách người dùng để gửi email
+
+    await sendEmailToUsers(courseData.name, users);
+    console.log("SendEmail to users successfully!");
     res.status(201).json({ id: courseId });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -56,16 +68,6 @@ router.post("/upload-image", upload.single("image"), async (req, res) => {
   }
 });
 
-// Lấy danh sách khóa học
-router.get("/", async (req, res) => {
-  try {
-    const courses = await getCourses();
-    res.status(200).json(courses);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 // Lấy chi tiết khóa học (user và admin)
 router.get("/:id", userOnly, async (req, res) => {
   const { id } = req.params;
@@ -78,7 +80,7 @@ router.get("/:id", userOnly, async (req, res) => {
 });
 
 // Lấy danh sách khóa học (user và admin)
-router.get("/", userOnly, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const courses = await getCourses();
     res.status(200).json(courses);
@@ -115,10 +117,37 @@ router.post("/:id/register", userOnly, async (req, res) => {
   const { id } = req.params;
   const { uid } = req.body;
   try {
+    console.log("uid: ", uid);
+    console.log("id: ", id);
     await registerCourse(id, uid);
     res.status(200).send("Course registered successfully");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
+// Lấy danh sách khóa học đã đăng ký của người dùng
+router.get("/user-courses/:uid", async (req, res) => {
+  const { uid } = req.params;
+  try {
+    // Lấy danh sách khóa học từ DB hoặc từ model tương ứng
+    const registeredCourses = await getRegisteredCoursesForUser(uid);
+    res.status(200).json(registeredCourses);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Lấy danh sách bài giảng của một khóa học
+router.get("/:id/lectures", async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Lấy danh sách bài giảng từ DB hoặc từ model tương ứng
+    const lectures = await getLecturesByCourseId(id);
+    res.status(200).json(lectures);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

@@ -1,26 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 const Sidebar = () => {
-  const [loginSuccess, setLoginSuccess] = useState(false); // State kiểm tra đăng nhập thành công
   const navigate = useNavigate();
+
   //check login status
   useEffect(() => {
-    const uid = localStorage.getItem("uid");
-    const expriresAt = localStorage.getItem("expiresAt");
-    if (uid && expriresAt) {
-      if (Date.now() < expriresAt) {
-        //token is valid
-        setLoginSuccess(true);
+    const checkLoginStatus = () => {
+      const uid = localStorage.getItem("uid");
+      const expriresAt = localStorage.getItem("expiresAt");
+      if (uid && expriresAt) {
+        if (Date.now() < expriresAt) {
+          //token is valid
+        } else {
+          //token is expired
+          localStorage.removeItem("idToken");
+          localStorage.removeItem("uid");
+          localStorage.removeItem("name");
+          localStorage.removeItem("expiresAt");
+          localStorage.removeItem("role");
+          alert("Phiên đăng nhập đã hết hạn!!");
+          navigate("/login");
+        }
       } else {
-        //token is expired
-        localStorage.removeItem("idToken");
-        localStorage.removeItem("uid");
-        localStorage.removeItem("name");
-        localStorage.removeItem("expiresAt");
-        localStorage.removeItem("role");
+        navigate("/login");
       }
-    }
+    };
+    checkLoginStatus();
+    const intervalId = setInterval(checkLoginStatus, 1000); // Cập nhật mỗi giây
+
+    return () => clearInterval(intervalId);
   }, []);
+
+  const handleLogout = () => {
+    // Xóa token và thời gian hết hạn khỏi localStorage
+    localStorage.removeItem("idToken");
+    localStorage.removeItem("uid");
+    localStorage.removeItem("name");
+    localStorage.removeItem("expiresAt");
+    localStorage.removeItem("role");
+    navigate("/login");
+  };
   return (
     <aside className="left-sidebar" style={{ width: "260px" }}>
       <div>
@@ -53,9 +72,9 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="sidebar-item my-3">
-              <Link className="sidebar-link" to="/getall" aria-expanded="false">
+              <Link className="sidebar-link" to="/admin/lecture" aria-expanded="false">
                 <b className="" style={{ fontSize: "20px" }}>
-                  MANAGE STUDENT
+                  LECTURE
                 </b>
               </Link>
             </li>
@@ -63,6 +82,16 @@ const Sidebar = () => {
               <Link className="sidebar-link" to="/search" aria-expanded="false">
                 <b className="" style={{ fontSize: "20px" }}>
                   SEARCH STUDENT
+                </b>
+              </Link>
+            </li>
+            <li className="sidebar-item my-3">
+              <Link
+                className="sidebar-link"
+                aria-expanded="false"
+                onClick={handleLogout}>
+                <b className="" style={{ fontSize: "20px" }}>
+                  LOGOUT
                 </b>
               </Link>
             </li>
