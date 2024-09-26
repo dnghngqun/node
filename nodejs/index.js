@@ -11,6 +11,8 @@ mongoose
   .catch((err) => console.log("Err to connect: ", err));
 
 app.use(express.json()); //middleware để parse JSON
+
+
 //API để liệt kê tất cả các item
 app.get("/items", async (req, res) => {
   try {

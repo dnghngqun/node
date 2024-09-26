@@ -16,7 +16,7 @@ const Course = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const productsPerPage = 12;
-  const [filteredProducts, setFilteredProducts] = useState([]); //lưu trữ dữ liệu đã lọc
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const uid = localStorage.getItem("uid");
   const navigate = useNavigate();
   useEffect(() => {
@@ -24,7 +24,7 @@ const Course = () => {
       .get("https://coursemanagement-be.onrender.com/courses/")
       .then((response) => {
         setProducts(response.data);
-        setFilteredProducts(response.data); // Khởi tạo dữ liệu đã lọc
+        setFilteredProducts(response.data); 
         console.log("Fetched products: ", response.data);
       })
       .catch((error) => {
@@ -46,12 +46,12 @@ const Course = () => {
         await axios.post(
           `https://coursemanagement-be.onrender.com/courses/${courseId}/register`,
           {
-            uid: uid, // Truyền uid và id khóa học
+            uid: uid, 
           },
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Nếu cần
+              Authorization: `Bearer ${token}`,
             },
           }
         );
