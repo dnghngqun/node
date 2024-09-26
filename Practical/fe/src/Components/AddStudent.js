@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import toast from "toastify-js";
+import "toastify-js/src/toastify.css";
 import "./Css/Student.css";
 import Nav from "./Nav";
 import SideBar from "./Sidebar";
@@ -12,6 +14,34 @@ const AddStudent = () => {
     { name: "gender", value: "" },
     { name: "major", value: "" },
   ]);
+
+  const notify = (mess) =>
+    toast({
+      text: mess,
+      duration: 3000,
+      gravity: "top", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+      },
+      close: true,
+      onClick: function () {}, // Callback after click
+    }).showToast();
+
+  const notifyFail = (err) =>
+    toast({
+      text: err,
+      duration: 3000,
+      gravity: "top", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "linear-gradient(to right, #c50e0e, #ec6554)",
+      },
+      close: true,
+      onClick: function () {}, // Callback after click
+    }).showToast();
 
   const handleAddField = () => {
     setFields([...fields, { name: "", value: "" }]);
@@ -28,14 +58,15 @@ const AddStudent = () => {
 
   const handleRemoveField = (index) => {
     // Không cho phép xóa tất cả các trường nếu chỉ còn lại một trường
-    if (fields.length > 1) {
+    if (fields.length > 4) {
       setFields(fields.filter((_, i) => i !== index));
     } else {
-      alert("Không thể xóa trường cuối cùng.");
+      notifyFail("Phải có tối thiểu 4 trường hợp lệ.");
     }
   };
 
   const handleSubmit = async () => {
+    notify("Đang tạo sinh viên với những trường hợp lệ, xin vui lòng đợi");
     // Tạo đối tượng data từ các trường hợp lệ
     const data = {};
     fields.forEach((field) => {
@@ -47,19 +78,19 @@ const AddStudent = () => {
 
     // Kiểm tra xem có dữ liệu hợp lệ để gửi không
     if (Object.keys(data).length === 0) {
-      alert("Không có trường nào có giá trị hợp lệ để gửi.");
+      notifyFail("Không có trường nào có giá trị hợp lệ để gửi.");
       return;
     }
 
     try {
       const response = await axios.post(
-        "https://studentmanagementnode.onrender.com/students",
+        "https://practicalnodebe.onrender.com/students",
         data
       );
-      alert("Sinh viên đã được tạo thành công!");
+      notify("Sinh viên đã được tạo thành công!");
       console.log(response.data);
     } catch (error) {
-      alert("Đã xảy ra lỗi!");
+      notifyFail("Đã xảy ra lỗi!");
       console.error(error);
     }
   };

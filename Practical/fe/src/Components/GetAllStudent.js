@@ -1,21 +1,49 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toast from "toastify-js";
+import "toastify-js/src/toastify.css";
 import "./Css/Student.css";
 import Nav from "./Nav";
 import SideBar from "./Sidebar";
-
 const GetAllStudent = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingIndex, setEditingIndex] = useState(-1); // Chỉ số dòng đang được chỉnh sửa
   const [editData, setEditData] = useState({}); // Dữ liệu đang chỉnh sửa
+  const notify = (mess) =>
+    toast({
+      text: mess,
+      duration: 3000,
+      gravity: "top", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+      },
+      close: true,
+      onClick: function () {}, // Callback after click
+    }).showToast();
+
+  const notifyFail = (err) =>
+    toast({
+      text: err,
+      duration: 3000,
+      gravity: "top", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "linear-gradient(to right, #c50e0e, #ec6554)",
+      },
+      close: true,
+      onClick: function () {}, // Callback after click
+    }).showToast();
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         const response = await axios.get(
-          "https://studentmanagementnode.onrender.com/students"
+          "https://practicalnodebe.onrender.com/students"
         );
         setStudents(response.data);
       } catch (err) {
@@ -29,15 +57,14 @@ const GetAllStudent = () => {
   }, []);
 
   const handleDelete = async (id) => {
+    notify("Bắt đầu xoá sinh viên có id: " + id);
     try {
-      await axios.delete(
-        `https://studentmanagementnode.onrender.com/student/${id}`
-      );
+      await axios.delete(`https://practicalnodebe.onrender.com/students/${id}`);
       // Xóa sinh viên khỏi danh sách
       setStudents(students.filter((student) => student.id !== id));
-      alert("Sinh viên đã được xoá!");
+      notify("Sinh viên đã được xoá!");
     } catch (error) {
-      alert("Đã xảy ra lỗi khi xoá!");
+      notifyFail("Đã xảy ra lỗi khi xoá!");
     }
   };
 
@@ -47,9 +74,10 @@ const GetAllStudent = () => {
   };
 
   const handleUpdate = async (id) => {
+    notify("Đang bắt đầu cập nhật...");
     try {
       await axios.put(
-        `https://studentmanagementnode.onrender.com/student/${id}`,
+        `https://practicalnodebe.onrender.com/students/${id}`,
         editData
       );
       const updatedStudents = students.map((student, index) =>
@@ -57,9 +85,9 @@ const GetAllStudent = () => {
       );
       setStudents(updatedStudents);
       setEditingIndex(-1); // Dừng việc chỉnh sửa
-      alert("Sinh viên đã được cập nhật!");
+      notify("Sinh viên đã được cập nhật!");
     } catch (error) {
-      alert("Đã xảy ra lỗi khi cập nhật!");
+      notifyFail("Đã xảy ra lỗi khi cập nhật!");
     }
   };
 
